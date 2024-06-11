@@ -52,9 +52,9 @@ class DatabaseSeeder extends Seeder
             JumbotronSeeder::class,
             ProfilewWisataSeeder::class,
         ]);
-        PaketWisata::factory(10)->create();
-        Fasilitas::factory(10)->create();
-        Galery::factory(10)->create();
-        Ulasan::factory(10)->create();
+        // PaketWisata::factory(10)->create();
+        // Fasilitas::factory(10)->create();
+        // Galery::factory(10)->create();
+        // Ulasan::factory(10)->create();
     }
 }
