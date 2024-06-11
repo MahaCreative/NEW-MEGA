@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaketwisataController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UlasanController;
 use App\Models\Ulasan;
 use Illuminate\Auth\Events\Login;
@@ -61,6 +62,8 @@ Route::middleware([])->group(function () {
     Route::post('terima-ulasan', [UlasanController::class, 'confirm'])->name('admin.confirm-ulasan');
     Route::post('confirm-galery', [AdminGaleryController::class, 'confirm'])->name('admin.confirm-galery');
     Route::get('daftar-pesanan-pengunjung', [AdminPesananController::class, 'index'])->name('admin.daftar-pesanan-pengunjung');
+    Route::delete('delete-slider', [SliderController::class, 'delete'])->name('delete-slider');
+    Route::post('create-slider', [SliderController::class, 'create'])->name('create-slider');
 });
 
 

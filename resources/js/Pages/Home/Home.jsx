@@ -1,5 +1,5 @@
 import Layouts from "@/Layouts/Layouts";
-import { Link, Head, usePage } from "@inertiajs/react";
+import { Link, Head, usePage, router } from "@inertiajs/react";
 import { Room, TravelExplore, WhatsApp } from "@mui/icons-material";
 import Index from "../Paket/Index";
 import IndexFasilitas from "../Fasilitas/Index";
@@ -10,11 +10,14 @@ import IndexForHome from "../Galery/IndexForHome";
 
 import Component from "../Ulasan/Component";
 import { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
+import FormSlider from "./FormSlider";
 
 export default function Home(props) {
     const { profile } = usePage().props;
     const paket = props.paket;
-
+    const slider = props.slider;
     const ulasan = props.ulasan;
     const fasilitas = props.fasilitas;
     const galery = props.galery;
@@ -25,6 +28,74 @@ export default function Home(props) {
             setRole(auth.user.role);
         }
     }, [auth]);
+    const columnsSlider = [
+        {
+            name: "#",
+            selector: (row, id) => id + 1,
+            width: "60px",
+        },
+        {
+            name: "Gambar",
+            selector: (row) => (
+                <img
+                    src={"/storage/" + row.image}
+                    alt=""
+                    className="w-[100px]"
+                />
+            ),
+        },
+        {
+            name: "Judul Slider",
+            selector: (row) => row.title,
+        },
+        {
+            name: "Tagline",
+            selector: (row) => row.tagline,
+        },
+        {
+            name: "aksi",
+            selector: (row) => (
+                <button
+                    onClick={() => deleteSlider(row.id)}
+                    className="bg-red-500 py-1 px-1 text-white"
+                >
+                    Delete
+                </button>
+            ),
+        },
+    ];
+
+    const deleteSlider = (id) => {
+        Swal.fire({
+            title: "Hapus Slider?",
+            text: "Apakah anda ingin Slider?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Hapus",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route("delete-slider", { id: id }), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: "Succes!",
+                            text: "Berhasil menghapus slider",
+                            icon: "success",
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Gagal menghapus slider",
+                            icon: "error",
+                        });
+                    },
+                    preserveScroll: true,
+                });
+            }
+        });
+    };
     return (
         <>
             <div className="bg-[url('storage/Image/bg.jpg')] bg-no-repeat bg-cover  py-16 px-4 ">
@@ -136,6 +207,20 @@ export default function Home(props) {
                     </ScrollAnimation>
                 </div>
                 {role == "admin" && <FormProfileWisata profile={profile} />}
+                {role == "admin" && (
+                    <div>
+                        <h3 className="font-bold text-blue-950">Slider</h3>
+                        <DataTable
+                            data={slider}
+                            columns={columnsSlider}
+                            pagination
+                            dense
+                        />
+                        <div className="my-3">
+                            <FormSlider />
+                        </div>
+                    </div>
+                )}
             </div>
             <Index paket={paket} profile={profile} />
             <IndexFasilitas fasilitas={fasilitas} profile={profile} />

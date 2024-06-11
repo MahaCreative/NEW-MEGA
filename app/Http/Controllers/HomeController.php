@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fasilitas;
 use App\Models\Galery;
+use App\Models\Jumbotron;
 use App\Models\PaketWisata;
 use App\Models\Ulasan;
 use Illuminate\Http\Request;
@@ -21,6 +22,8 @@ class HomeController extends Controller
         $queryGalery = Galery::query();
         $galery = $queryGalery->latest()->get();
         $ulasan = Ulasan::where('status_konfirmasi', 'menunggu konfirmasi')->latest()->get();
-        return inertia('Home/Home', compact('paket', 'fasilitas', 'galery', 'ulasan'));
+        $slider = Jumbotron::latest()->get();
+
+        return inertia('Home/Home', compact('paket', 'fasilitas', 'galery', 'ulasan', 'slider'));
     }
 }
