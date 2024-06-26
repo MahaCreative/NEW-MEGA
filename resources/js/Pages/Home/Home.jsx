@@ -230,4 +230,4 @@ export default function Home(props) {
     );
 }
 
-Home.layout = (page) => <Layouts children={page} />;
+Home.layout = (page) => <Layouts children={page} title={"Home"} />;

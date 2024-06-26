@@ -41,4 +41,11 @@ class UlasanController extends Controller
             'rating' => $request->rating,
         ]);
     }
+
+    public function delete(Request $request)
+    {
+        $ulasan = Ulasan::findOrFail($request->id);
+        $ulasan->delete();
+        return redirect()->back();
+    }
 }

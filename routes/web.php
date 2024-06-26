@@ -44,7 +44,7 @@ Route::get('fasilitas-wisata', [FasilitasWisataController::class, 'index'])->nam
 Route::get('galery', [GaleryController::class, 'index'])->name('galery');
 Route::get('ulasan', [UlasanController::class, 'index'])->name('ulasan');
 Route::post('create-ulasan', [UlasanController::class, 'create'])->name('create-ulasan');
-
+ROute::delete('delete-ulasan', [UlasanController::class, 'delete'])->name('delete-ulasan');
 // rute untuk yang login baik user or pengunjung
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');

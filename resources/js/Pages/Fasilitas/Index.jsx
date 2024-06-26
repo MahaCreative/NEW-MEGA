@@ -276,18 +276,18 @@ export default function Index(props) {
                                             )}
                                         </div>
                                         <div className="absolute top-2 right-2 w-full flex gap-3 justify-end">
+                                            <button
+                                                onClick={() =>
+                                                    lihatHandler(item)
+                                                }
+                                                className="bg-blue-500 hover:bg-blue-800 transition-all ease-in-out duration-300 text-white py-1 px-2 leading-none tracking-tighter"
+                                            >
+                                                <Tooltip title="Lihat Detail Paket">
+                                                    <Visibility />
+                                                </Tooltip>
+                                            </button>
                                             {role == "admin" && (
                                                 <div>
-                                                    <button
-                                                        onClick={() =>
-                                                            lihatHandler(item)
-                                                        }
-                                                        className="bg-blue-500 hover:bg-blue-800 transition-all ease-in-out duration-300 text-white py-1 px-2 leading-none tracking-tighter"
-                                                    >
-                                                        <Tooltip title="Lihat Detail Paket">
-                                                            <Visibility />
-                                                        </Tooltip>
-                                                    </button>
                                                     <button
                                                         onClick={() =>
                                                             deleteHandler(item)

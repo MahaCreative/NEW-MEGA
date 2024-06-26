@@ -2,7 +2,7 @@ import InputText from "@/Components/InputText";
 import StyledRating from "@/Components/StyledRating";
 import Layouts from "@/Layouts/Layouts";
 import { router, usePage } from "@inertiajs/react";
-import { Cancel, Check, Style } from "@mui/icons-material";
+import { Cancel, Check, Delete, Style } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -57,27 +57,42 @@ export default function Index({ profile, ulasan }) {
         },
         {
             name: "Aksi",
-            selector: (row) =>
-                row.status_konfirmasi == "menunggu konfirmasi" && (
-                    <>
-                        <button
-                            onClick={() => konfirmasiHandler(row, "diterima")}
-                            className="bg-blue-500 text-white py-1 px-2"
-                        >
-                            <Tooltip title="Terima Ulasan">
-                                <Check />
-                            </Tooltip>
-                        </button>
-                        <button
-                            onClick={() => konfirmasiHandler(row, "ditolak")}
-                            className="bg-red-500 text-white py-1 px-2"
-                        >
-                            <Tooltip title="Tolak Ulasan">
-                                <Cancel />
-                            </Tooltip>
-                        </button>
-                    </>
-                ),
+            selector: (row) => (
+                <>
+                    {row.status_konfirmasi == "menunggu konfirmasi" && (
+                        <>
+                            <button
+                                onClick={() =>
+                                    konfirmasiHandler(row, "diterima")
+                                }
+                                className="bg-blue-500 text-white py-1 px-2"
+                            >
+                                <Tooltip title="Terima Ulasan">
+                                    <Check />
+                                </Tooltip>
+                            </button>
+                            <button
+                                onClick={() =>
+                                    konfirmasiHandler(row, "ditolak")
+                                }
+                                className="bg-red-500 text-white py-1 px-2"
+                            >
+                                <Tooltip title="Tolak Ulasan">
+                                    <Cancel />
+                                </Tooltip>
+                            </button>
+                        </>
+                    )}
+                    <button
+                        onClick={() => deleteHandler(row)}
+                        className="bg-red-500 text-white py-1 px-2"
+                    >
+                        <Tooltip title="Delete Ulasan">
+                            <Delete />
+                        </Tooltip>
+                    </button>
+                </>
+            ),
             wrap: true,
         },
     ];
@@ -106,6 +121,35 @@ export default function Index({ profile, ulasan }) {
                             Swal.fire({
                                 title: "Succes!",
                                 text: "Berhasil melakukan konfirmasi ulasan",
+                                icon: "success",
+                            });
+                        },
+                        preserveScroll: true,
+                    }
+                );
+            }
+        });
+    };
+    const deleteHandler = (row) => {
+        Swal.fire({
+            title: status == "Hapus Ulasan",
+            text: "Apakah anda yakin ingin menghapus ulasan?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Delete",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(
+                    route("delete-ulasan", {
+                        id: row.id,
+                    }),
+                    {
+                        onSuccess: () => {
+                            Swal.fire({
+                                title: "Succes!",
+                                text: "Berhasil menghapus ulasan",
                                 icon: "success",
                             });
                         },

@@ -241,4 +241,4 @@ export default function Register() {
         </div>
     );
 }
-Register.layout = (page) => <Layouts children={page} label={"Register"} />;
+Register.layout = (page) => <Layouts children={page} title={"Register"} />;
