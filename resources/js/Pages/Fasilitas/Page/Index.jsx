@@ -300,7 +300,10 @@ export default function Index(props) {
                                                     </button>
                                                 </div>
                                             )}
-                                            {role == "pengunjung" && (
+                                            {(
+                                                role == "pengunjung" &&
+                                                role == null
+                                            )(
                                                 <div>
                                                     <button
                                                         onClick={() =>
