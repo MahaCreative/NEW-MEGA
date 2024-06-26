@@ -31,7 +31,7 @@ class FasilitasWisataController extends Controller
                 'harga_sewa' => 'required|numeric',
             ]);
         }
-        $attr['gambar'] = $request->file('gambar')->store('fasilitas');
+        $attr['gambar'] = $request->file('gambar')->store('fasilitas', 'public');
         Fasilitas::create($attr);
         return redirect()->back();
     }
