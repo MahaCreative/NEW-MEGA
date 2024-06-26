@@ -187,17 +187,15 @@ export default function Index(props) {
                 animateIn="fadeInRight"
                 className="py-16 px-4 bg-[url('storage/Image/bg.jpg')] bg-no-repeat bg-cover"
             >
-                {role == "pengunjung" ||
-                    (role == null && (
-                        <div className="">
-                            <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
-                                Fasiltas Yang Tersedia
-                            </h3>
-                            <h1 className="text-blue-950 text-xl font-extralight uppercase tracking-tighter text-center mb-6 ">
-                                {profile.nama_wisata}
-                            </h1>
-                        </div>
-                    ))}
+                <div className="">
+                    <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
+                        Fasiltas Yang Tersedia
+                    </h3>
+                    <h1 className="text-blue-950 text-xl font-extralight uppercase tracking-tighter text-center mb-6 ">
+                        {profile.nama_wisata}
+                    </h1>
+                </div>
+
                 {role == "admin" && (
                     <div className="">
                         <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">

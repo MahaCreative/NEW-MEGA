@@ -186,7 +186,7 @@ export default function Index(props) {
                 animateIn="fadeInRight"
                 className="py-16 px-4 bg-[url('storage/Image/bg.jpg')] bg-no-repeat bg-cover"
             >
-                {role == "pengunjung" && (
+                {(role == "pengunjung" || role == null) && (
                     <div className="">
                         <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
                             Fasiltas Yang Tersedia
