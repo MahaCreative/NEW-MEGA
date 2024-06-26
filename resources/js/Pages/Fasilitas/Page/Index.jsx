@@ -280,16 +280,6 @@ export default function Index(props) {
                                                 <div>
                                                     <button
                                                         onClick={() =>
-                                                            lihatHandler(item)
-                                                        }
-                                                        className="bg-blue-500 hover:bg-blue-800 transition-all ease-in-out duration-300 text-white py-1 px-2 leading-none tracking-tighter"
-                                                    >
-                                                        <Tooltip title="Lihat Detail Paket">
-                                                            <Visibility />
-                                                        </Tooltip>
-                                                    </button>
-                                                    <button
-                                                        onClick={() =>
                                                             deleteHandler(item)
                                                         }
                                                         className="bg-red-500 hover:bg-red-800 transition-all ease-in-out duration-300 text-white py-1 px-2 leading-none tracking-tighter"
