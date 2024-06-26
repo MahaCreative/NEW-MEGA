@@ -8,7 +8,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
-    title: (title) => `${title} - Mangrove wai tumbur`,
+    title: (title) => `${title}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,
