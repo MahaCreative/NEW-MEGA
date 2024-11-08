@@ -48,13 +48,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
         $this->call([
             JumbotronSeeder::class,
             ProfilewWisataSeeder::class,
         ]);
-        // PaketWisata::factory(10)->create();
-        // Fasilitas::factory(10)->create();
-        // Galery::factory(10)->create();
-        // Ulasan::factory(10)->create();
+        PaketWisata::factory(10)->create();
+        Fasilitas::factory(10)->create();
+        Galery::factory(10)->create();
+        Ulasan::factory(10)->create();
     }
 }

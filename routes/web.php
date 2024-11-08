@@ -14,7 +14,11 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UlasanController;
+use App\Models\DetailPesanan;
+use App\Models\Pesanan;
+use App\Models\PaketWisata;
 use App\Models\Ulasan;
+use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -82,3 +86,60 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::post('generate-token', [GetToken::class, 'create_token'])->name('create-token');
+
+Route::get('cretae-data-dummy', function () {
+    for ($i = 0; $i < 100; $i++) {
+        $user =  User::create([
+            'firstname' => fake()->firstName(),
+            'lastname' => fake()->lastName(),
+            'tempat_lahir' => fake()->city(),
+            'tanggal_lahir' => fake()->date(),
+            'email' => fake()->unique()->safeEmail(),
+            'password' => bcrypt('password'),
+            'jenis_kelamin' => fake()->randomElement(['L', '']),
+            'alamat' => fake()->address(),
+            'no_hp' => '082' . rand(111111111, 999999999),
+            'role' => 'pengunjung'
+        ]);
+        $randomUser = rand(1, 5);
+        for ($k = 0; $k < $randomUser; $k++) {
+            $randomNumber = rand(1, 3);
+            $paket = PaketWisata::all();
+            $total = 0;
+            $list = $paket->pluck('id');
+            $listId = [];
+            $listNama = [];
+            $listHarga = [];
+            for ($j = 0; $j < $randomNumber; $j++) {
+                $randomId = fake()->randomElements($list);
+                $getPaket = PaketWisata::findOrFail($randomId);
+
+                $total += $getPaket[0]->harga_paket;
+                $listId[] = $getPaket[0]->id;
+                $listNama[] = $getPaket[0]->nama_paket;
+                $listHarga[] = $getPaket[0]->harga_paket;
+            }
+
+            $pesanan = Pesanan::create([
+                'user_id' => $user->id,
+                'kd_pesanan' => now()->format('ymd') . $user->id . '0' . $k . $i,
+                'token' => fake()->randomKey(),
+                'waktu_perencanaan' => $date = fake()->dateTimeBetween('-2 years', 'now'),
+                'tanggal_pesanan' => $date,
+                'total_pesanan' => $randomNumber,
+                'total_harga' => $total,
+                'status_pembayaran' => 'settlement',
+                'payment_at' => $date,
+                'status_pesanan' => 'selesai',
+            ]);
+            for ($y = 0; $y < $randomNumber; $y++) {
+                $detail = DetailPesanan::create([
+                    'pesanan_id' => $pesanan->id,
+                    'paket_wisata_id' => $listId[$y],
+                    'nama_paket' => $listNama[$y],
+                    'harga_paket' => $listHarga[$y],
+                ]);
+            }
+        }
+    }
+});

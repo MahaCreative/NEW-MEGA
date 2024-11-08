@@ -6,9 +6,29 @@ import CurrencyInput from "react-currency-input-field";
 import DataTable from "react-data-table-component";
 import { Link } from "react-scroll";
 import Swal from "sweetalert2";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
 export default function Index(props) {
     const pesanan = props.pesanan;
+    const totalPesananBulan = props.totalPesananPerBulan;
+    const totalPesananTahun = props.totalPesananPerTahun;
     const pesananRef = useRef();
     const [role, setRole] = useState(null);
     const { auth } = usePage().props;
@@ -229,15 +249,113 @@ export default function Index(props) {
 
     return (
         <div ref={pesananRef} className="py-6 px-4">
-            <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
-                Daftar Pesanan Saya
-            </h3>
+            {role == "pengunjung" ? (
+                <>
+                    <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
+                        Daftar Pesanan Saya
+                    </h3>
 
-            <h1 className="text-blue-950 text-xl font-extralight uppercase tracking-tighter text-center mb-6 ">
-                Silahkan Mengelola Pesanan Anda Disini
-            </h1>
+                    <h1 className="text-blue-950 text-xl font-extralight uppercase tracking-tighter text-center mb-6 ">
+                        Silahkan Mengelola Pesanan Anda Disini
+                    </h1>
+                </>
+            ) : (
+                <>
+                    <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
+                        Daftar Pesanan Pelanggan
+                    </h3>
 
+                    <h1 className="text-blue-950 text-xl font-extralight uppercase tracking-tighter text-center mb-6 ">
+                        Silahkan Mengelola Pesanan Pelanggan Disini
+                    </h1>
+                </>
+            )}
             <DataTable data={pesanan} columns={columns} pagination />
+            {role !== "pengunjung" && (
+                <div className="w-full h-full flex flex-col justify-center items-center">
+                    <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
+                        Statistik Jumlah Pesanan
+                    </h3>
+                    <div className="flex w-full justify-between gap-3 py-12 lg:px-8 md:px-4 sm:px-2">
+                        <div>
+                            <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
+                                Statistik Jumlah Pesanan 1 Tahun Terakhir
+                            </h3>
+                            <Bar
+                                className="h-[300px]"
+                                data={{
+                                    labels: totalPesananBulan.map(
+                                        (item) => `${item.month}/${item.year}`
+                                    ),
+                                    datasets: [
+                                        {
+                                            label: "Total Pesanan",
+                                            data: totalPesananBulan.map(
+                                                (item) => item.total
+                                            ),
+                                            backgroundColor:
+                                                "rgba(75, 192, 192, 0.6)",
+                                            borderColor:
+                                                "rgba(75, 192, 192, 1)",
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                                options={{
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            position: "top",
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: "Total Pesanan Per Bulan (12 Bulan Terakhir)",
+                                        },
+                                    },
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <h3 className="text-blue-950 text-2xl font-medium uppercase tracking-tighter text-center ">
+                                Statistik Jumlah Pesanan Pertahun
+                            </h3>
+                            <Bar
+                                className="h-[300px]"
+                                data={{
+                                    labels: totalPesananTahun.map(
+                                        (item) => `Tahun ${item.year}`
+                                    ),
+                                    datasets: [
+                                        {
+                                            label: "Total Pesanan",
+                                            data: totalPesananTahun.map(
+                                                (item) => item.total
+                                            ),
+                                            backgroundColor:
+                                                "rgba(75, 192, 192, 0.6)",
+                                            borderColor:
+                                                "rgba(75, 192, 192, 1)",
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                                options={{
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            position: "top",
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: "Total Pesanan Per Tahun",
+                                        },
+                                    },
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
