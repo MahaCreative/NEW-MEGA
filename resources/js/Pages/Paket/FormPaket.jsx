@@ -74,9 +74,9 @@ export default function FormPaket({ onClose }) {
                     className="w-full block text-black"
                 >
                     <MenuItem value="">Pilih Kategori Durasi Paket</MenuItem>
-                    <MenuItem value="jam">Jam</MenuItem>
-                    <MenuItem value="hari">hari</MenuItem>
-                    <MenuItem value="minggu">minggu</MenuItem>
+                    <MenuItem value="1 jam">1 Jam</MenuItem>
+                    <MenuItem value="1 hari">1 hari</MenuItem>
+                    <MenuItem value="1 minggu">1 minggu</MenuItem>
                 </SelectComponents>
                 <InputUang
                     label={"Kategori Durasi Paket"}
